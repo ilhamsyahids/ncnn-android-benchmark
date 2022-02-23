@@ -25,8 +25,7 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-public class MainActivity extends Activity
-{
+public class MainActivity extends Activity {
     private BenchmarkNcnn benchmarkncnn = new BenchmarkNcnn();
 
     private Spinner spinnerThreads;
@@ -52,14 +51,12 @@ public class MainActivity extends Activity
 
     /** Called when the activity is first created. */
     @Override
-    public void onCreate(Bundle savedInstanceState)
-    {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
         boolean ret_init = benchmarkncnn.Init();
-        if (!ret_init)
-        {
+        if (!ret_init) {
             Log.e("MainActivity", "benchmarkncnn Init failed");
         }
 
@@ -88,20 +85,32 @@ public class MainActivity extends Activity
 
         // apply default settings
         spinnerThreads.setSelection(3);
+        spinnerPowersave.setSelection(1);
+        spinnerMempool.setSelection(1);
+        spinnerWinograd.setSelection(1);
+        spinnerSGEMM.setSelection(1);
+        spinnerPack4.setSelection(1);
         spinnerBF16s.setSelection(1);
+        spinnerGPU.setSelection(1);
+        spinnerGPUFP16p.setSelection(1);
+        spinnerGPUFP16s.setSelection(1);
+        spinnerGPUFP16a.setSelection(1);
         spinnerGPUPack8.setSelection(1);
+        spinnerLoops.setSelection(1);
 
         Button buttonRun = (Button) findViewById(R.id.buttonRun);
         buttonRun.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                        WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
                 new Thread(new Runnable() {
                     public void run() {
 
                         int threads = Integer.parseInt(spinnerThreads.getSelectedItem().toString());
-                        int powersave = spinnerPowersave.getSelectedItem().toString().equals("All") ? 0 : spinnerPowersave.getSelectedItem().toString().equals("Little") ? 1 : 2;
+                        int powersave = spinnerPowersave.getSelectedItem().toString().equals("All") ? 0
+                                : spinnerPowersave.getSelectedItem().toString().equals("Little") ? 1 : 2;
                         boolean mempool = spinnerMempool.getSelectedItem().toString().equals("Yes");
                         boolean winograd = spinnerWinograd.getSelectedItem().toString().equals("Yes");
                         boolean sgemm = spinnerSGEMM.getSelectedItem().toString().equals("Yes");
@@ -115,7 +124,8 @@ public class MainActivity extends Activity
                         int model = spinnerModel.getSelectedItemPosition();
                         int loops = Integer.parseInt(spinnerLoops.getSelectedItem().toString());
 
-                        result = benchmarkncnn.Run(getAssets(), threads, powersave, mempool, winograd, sgemm, pack4, bf16s, gpu, gpufp16p, gpufp16s, gpufp16a, gpupack8, model, loops);
+                        result = benchmarkncnn.Run(getAssets(), threads, powersave, mempool, winograd, sgemm, pack4,
+                                bf16s, gpu, gpufp16p, gpufp16s, gpufp16a, gpupack8, model, loops);
 
                         textviewMin.post(new Runnable() {
                             public void run() {
@@ -128,9 +138,15 @@ public class MainActivity extends Activity
                                 if (result.retcode == 3)
                                     errortext = "  unknown shape";
 
-                                textviewMin.setText(result.retcode != 0 ? errortext : String.format("  %.2f", result.min));
-                                textviewMax.setText(result.retcode != 0 ? errortext : String.format("  %.2f", result.max));
-                                textviewAvg.setText(result.retcode != 0 ? errortext : String.format("  %.2f", result.avg));
+                                textviewMin
+                                        .setText(result.retcode != 0 ? errortext
+                                                : String.format("  %.2f ms", result.min));
+                                textviewMax
+                                        .setText(result.retcode != 0 ? errortext
+                                                : String.format("  %.2f ms", result.max));
+                                textviewAvg
+                                        .setText(result.retcode != 0 ? errortext
+                                                : String.format("  %.2f ms", result.avg));
                                 getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                             }
                         });

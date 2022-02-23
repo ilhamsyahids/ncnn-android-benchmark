@@ -21,25 +21,8 @@
         <item>Big</item>
     </string-array>
     <string-array name="model_array">
-        <item>squeezenet</item>
-        <item>mobilenet</item>
-        <item>mobilenet_v2</item>
-        <item>mobilenet_v3</item>
-        <item>shufflenet</item>
-        <item>shufflenet_v2</item>
-        <item>mnasnet</item>
-        <item>proxylessnasnet</item>
-        <item>efficientnet_b0</item>
-        <item>regnety_400m</item>
-        <item>alexnet</item>
-        <item>googlenet</item>
-        <item>resnet18</item>
-        <item>vgg16</item>
-        <item>resnet50</item>
-        <item>mobilenet_ssd</item>
-        <item>squeezenet_ssd</item>
-        <item>mobilenet_yolo</item>
-        <item>mobilenetv2_yolov3</item>
+        <item>yolox-tiny</item>
+        <item>yolox-nano</item>
     </string-array>
     <string-array name="loops_array">
         <item>5</item>
